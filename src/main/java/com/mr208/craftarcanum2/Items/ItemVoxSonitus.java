@@ -55,7 +55,7 @@ public class ItemVoxSonitus extends ItemCA2
 				if (material.equals(Material.wood)) instrument = 4;
 
 				nbtTagCompound.setByte("note", ((TileEntityNote) tile).note);
-				nbtTagCompound.setInteger("instrument",instrument);
+				nbtTagCompound.setInteger("tone",instrument);
 
 			}
 
@@ -73,7 +73,7 @@ public class ItemVoxSonitus extends ItemCA2
 		int note = 0;
 		int instrument = 0;
 		note = nbtTagCompound.getByte("note");
-		instrument = nbtTagCompound.getInteger("instrument");
+		instrument = nbtTagCompound.getInteger("tone");
 
 		NoteBlockEvent.Play event = new NoteBlockEvent.Play(world, player.getPosition(), null, note, instrument);
 		if(MinecraftForge.EVENT_BUS.post(event)) return stack;
@@ -104,7 +104,7 @@ public class ItemVoxSonitus extends ItemCA2
 		NBTTagCompound nbtTagCompound = stack.getTagCompound();
 		if(nbtTagCompound != null)
 		{
-			list.add(EnumChatFormatting.BOLD + StatCollector.translateToLocal("item.craftarcanum2.voxsonitus.instrument")+": " + EnumChatFormatting.RESET + nbtTagCompound.getInteger("instrument"));
+			list.add(EnumChatFormatting.BOLD + StatCollector.translateToLocal("item.craftarcanum2.voxsonitus.tone")+": " + EnumChatFormatting.RESET + nbtTagCompound.getInteger("tone"));
 			list.add(EnumChatFormatting.BOLD + StatCollector.translateToLocal("item.craftarcanum2.voxsonitus.note")+": " + EnumChatFormatting.RESET + nbtTagCompound.getByte("note"));
 		}
 	}

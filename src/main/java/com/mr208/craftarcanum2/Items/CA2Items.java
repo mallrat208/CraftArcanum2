@@ -1,6 +1,9 @@
 package com.mr208.craftarcanum2.Items;
 
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -16,5 +19,6 @@ public class CA2Items
 	{
 		ItemVoxSonitus = new ItemVoxSonitus("voxsonitus",event);
 		GameRegistry.registerItem(ItemVoxSonitus);
+		GameRegistry.addShapelessRecipe(new ItemStack(ItemVoxSonitus).copy(), Items.book, Blocks.noteblock);
 	}
 }
