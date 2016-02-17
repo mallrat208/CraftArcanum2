@@ -20,7 +20,7 @@ public class CraftArcanum2
 	public final static String MODID = "craftarcanum2";
 	public final static String NAME = "Craft Arcanum 2";
 	public final static String VERSION = "";
-	public final static String DEPENDENCIES = "after:Thaumcraft";
+	public final static String DEPENDENCIES = "required-after:Thaumcraft";
 	public final static String COMMONPROXY = "com.mr208.craftarcanum2.Proxy.CommonProxy";
 	public final static String CLIENTPROXY = "com.mr208.craftarcanum2.Proxy.ClientProxy";
 

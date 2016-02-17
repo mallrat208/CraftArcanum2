@@ -15,12 +15,12 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-
 import net.minecraftforge.event.world.NoteBlockEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import thaumcraft.common.tiles.devices.TileArcaneEar;
 
 public class ItemVoxSonitus extends ItemCA2
 {
@@ -31,37 +31,45 @@ public class ItemVoxSonitus extends ItemCA2
 	}
 
 	@Override
-	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
-	{
+	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
 		NBTTagCompound nbtTagCompound = stack.getTagCompound();
-		if(nbtTagCompound==null)
+		if (nbtTagCompound == null)
 		{
 			nbtTagCompound = new NBTTagCompound();
 			stack.setTagCompound(nbtTagCompound);
 		}
 
-		if(!world.isRemote && player.isSneaking())
+		if (!world.isRemote && player.isSneaking())
 		{
 			TileEntity tile;
 			tile = world.getTileEntity(pos);
-			if(tile != null && tile instanceof TileEntityNote)
+			if (tile != null)
 			{
-				int instrument = 0;
-				Material material = world.getBlockState(pos.add(0,-1,0)).getBlock().getMaterial();
+				if (tile instanceof TileEntityNote)
+				{
+					int instrument = 0;
+					Material material = world.getBlockState(pos.add(0, -1, 0)).getBlock().getMaterial();
 
-				if (material.equals(Material.rock)) instrument = 1;
-				if (material.equals(Material.sand)) instrument = 2;
-				if (material.equals(Material.glass)) instrument = 3;
-				if (material.equals(Material.wood)) instrument = 4;
+					if (material.equals(Material.rock)) instrument = 1;
+					if (material.equals(Material.sand)) instrument = 2;
+					if (material.equals(Material.glass)) instrument = 3;
+					if (material.equals(Material.wood)) instrument = 4;
 
-				nbtTagCompound.setByte("note", ((TileEntityNote) tile).note);
-				nbtTagCompound.setInteger("tone",instrument);
+					nbtTagCompound.setByte("note", ((TileEntityNote) tile).note);
+					nbtTagCompound.setInteger("tone", instrument);
+					return true;
+				} else {
+					if (tile instanceof TileArcaneEar)
+					{
+						((TileArcaneEar) tile).note = nbtTagCompound.getByte("note");
+						tile.markDirty();
+						return true;
+					}
+				}
 
 			}
 
-			return true;
 		}
-
 		return false;
 	}
 
@@ -112,7 +120,8 @@ public class ItemVoxSonitus extends ItemCA2
 	@Override
 	public void onCreated(ItemStack stack,World world, EntityPlayer player)
 	{
-		stack.setTagCompound(new NBTTagCompound());
+		NBTTagCompound nbtTagCompound = new NBTTagCompound();
+		stack.setTagCompound(nbtTagCompound);
 	}
 
 	@Override
@@ -121,5 +130,4 @@ public class ItemVoxSonitus extends ItemCA2
 	{
 		return EnumRarity.UNCOMMON;
 	}
-
 }
